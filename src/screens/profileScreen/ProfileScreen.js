@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,39 +6,50 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/core";
 
 export default function ProfileScreen() {
-  const [yourPhone, setYourPhone] = useState("77019420333");
-  const [yourPassword, setYourPassword] = useState("Qwerty123");
+  const navigation = useNavigation();
+  const [yourPhone, setYourPhone] = useState("");
+  const [yourPassword, setYourPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const [fullName, setFullName] = useState("Eldar");
-  const [email, setEmail] = useState("new@new.com");
-  const [phone, setPhone] = useState("77019420331");
-  const [password, setPassword] = useState("Qwerty123");
-  const [companyName, setCompanyName] = useState("Company1");
-  const [companyType, setCompanyType] = useState("1");
-  const [bin, setBin] = useState("50607080");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyType, setCompanyType] = useState("");
+  const [bin, setBin] = useState("");
 
   const handlerSubmitLogin = async () => {
     const user = {
       phone: yourPhone,
       password: yourPassword,
     };
-    console.log(user);
     try {
       const res = await axios({
         method: "POST",
         url: "https://test.money-men.kz/api/login",
         data: user,
       });
-      await AsyncStorage.setItem("token", res.data.token);
+      if (!res.data.success) {
+        setError(res.data.message);
+        return;
+      } else {
+        await AsyncStorage.setItem("token", res.data.token);
+        navigation.navigate("Home");
+      }
     } catch (error) {
       console.log(error);
     }
+    setYourPhone("");
+    setYourPassword("");
   };
   const handlerSubmitRegist = async () => {
     const user = {
@@ -50,18 +61,40 @@ export default function ProfileScreen() {
       companyType,
       bin,
     };
-    console.log(user);
     try {
       const res = await axios({
         method: "POST",
         url: "https://test.money-men.kz/api/entityRegistration",
         data: user,
       });
-      await AsyncStorage.setItem("token", res.data.token);
+      console.log(res.data);
+      if (!res.data.success) {
+        setError(res.data.message);
+        return;
+      } else {
+        await AsyncStorage.setItem("token", res.data.token);
+        navigation.navigate("Home");
+      }
     } catch (error) {
       console.log(error);
     }
+    setFullName("");
+    setEmail("");
+    setPhone("");
+    setPassword("");
+    setCompanyName("");
+    setCompanyType("");
+    setBin("");
   };
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert("Warning", error, [
+        { text: "OK", onPress: () => console.log("error") },
+      ]);
+    }
+    setError("");
+  }, [error]);
 
   return (
     <ScrollView>

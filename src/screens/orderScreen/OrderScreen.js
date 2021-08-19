@@ -40,6 +40,7 @@ export default function OrderScreen() {
   //!Set Countries and Cities
   const [fromCounty, setFromCountry] = useState("1");
   const [fromCity, setFromCity] = useState("1");
+  const [fromCityString, setFromCityString] = useState("1");
 
   const [destinCountry, setDestinCountry] = useState("1");
   const [destinCity, setDestinCity] = useState("1");
@@ -140,22 +141,23 @@ export default function OrderScreen() {
       payment_type: paymentMethod,
       type_transport: trasport,
       type_sub_transport: trasport,
-      from_string: fromCity,
+      from_string: fromCityString,
       to_string: destinCity,
     };
-    try {
-      const res = await axios({
-        method: "GET",
-        url: `https://test.money-men.kz/api/newAddPost?token=${order.token}&category_id=${order.category_id}&sub_id=${order.sub_id}&title=${order.title}&from=${order.from}&to=${order.to}&volume=${order.volume}&net=${order.net}&start_date=${order.start_date}&end_date=18.02.2022&documents[]=1,2,3&price=${order.price}&price_type=${order.price_type}&payment_type=${order.payment_type}&type_transport=${order.type_transport}&type_sub_transport[]=1&from_string=123&to_string=123`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(res);
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(order);
+    //  try {
+    //    const res = await axios({
+    //      method: "GET",
+    //      url: `https://test.money-men.kz/api/newAddPost?token=${order.token}&category_id=${order.category_id}&sub_id=${order.sub_id}&title=${order.title}&from=${order.from}&to=${order.to}&volume=${order.volume}&net=${order.net}&start_date=${order.start_date}&end_date=18.02.2022&documents[]=1,2,3&price=${order.price}&price_type=${order.price_type}&payment_type=${order.payment_type}&type_transport=${order.type_transport}&type_sub_transport[]=1&from_string=123&to_string=123`,
+    //      headers: {
+    //        "Content-Type": "application/json",
+    //      },
+    //    });
+    //    console.log(res);
+    //    console.log(res.data);
+    //  } catch (error) {
+    //    console.log(error);
+    //  }
   };
   return (
     <ScrollView>

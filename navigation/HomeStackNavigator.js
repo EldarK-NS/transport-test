@@ -37,19 +37,19 @@ export default function HomeStack() {
               <Text style={styles.buttonText}>Поиск</Text>
             </Pressable>
           ),
-          headerRight: () => (
-            <Pressable
-              style={[styles.leftButton, { marginRight: 10 }]}
-              onPress={() => navigation.goBack()}
-            >
-              <Text style={styles.buttonText}>Фильтр</Text>
-              <MaterialCommunityIcons
-                name="filter-variant"
-                size={24}
-                color="white"
-              />
-            </Pressable>
-          ),
+          //  headerRight: () => (
+          //    <Pressable
+          //      style={[styles.leftButton, { marginRight: 10 }]}
+          //      onPress={() => navigation.goBack()}
+          //    >
+          //      <Text style={styles.buttonText}>Фильтр</Text>
+          //      <MaterialCommunityIcons
+          //        name="filter-variant"
+          //        size={24}
+          //        color="white"
+          //      />
+          //    </Pressable>
+          //  ),
         })}
       />
     </Stack.Navigator>
